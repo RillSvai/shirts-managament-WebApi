@@ -60,9 +60,14 @@ namespace ShirtsManagament.API.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<T?> GetById<TIdentifier>(TIdentifier id)
+        public async Task<T?> GetById<TIdentifier>(TIdentifier id, bool isTracked = false)
         {
-            return await _dbSet.FindAsync(id);
+            T? item = await _dbSet.FindAsync(id);
+            if (item is not null && !isTracked)
+            {
+                _db.Entry(item!).State = EntityState.Detached;
+            }
+            return item;
         }
 
         public virtual async Task InsertAsync(T item)
