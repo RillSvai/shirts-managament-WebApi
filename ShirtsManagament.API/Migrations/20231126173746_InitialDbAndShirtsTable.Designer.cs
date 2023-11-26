@@ -11,8 +11,8 @@ using ShirtsManagament.API.Data;
 namespace ShirtsManagament.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231125173209_SeedData")]
-    partial class SeedData
+    [Migration("20231126173746_InitialDbAndShirtsTable")]
+    partial class InitialDbAndShirtsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
