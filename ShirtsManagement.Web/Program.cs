@@ -9,6 +9,11 @@ builder.Services.AddHttpClient("web-api", client =>
     client.BaseAddress = new Uri("https://localhost:7294/api/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
+builder.Services.AddHttpClient("auth-api", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7294/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 builder.Services.AddTransient<IWebApiExecuter, WebApiExecuter>();
 var app = builder.Build();
 

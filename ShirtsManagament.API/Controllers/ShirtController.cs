@@ -8,6 +8,7 @@ namespace ShirtsManagament.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [JwtTokenAuthFilter]
     public class ShirtController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;

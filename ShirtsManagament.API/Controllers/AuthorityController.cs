@@ -19,12 +19,12 @@ namespace ShirtsManagament.API.Controllers
         [HttpPost("auth")]
         public IActionResult Authenticate([FromBody] ApplicationCredential credential) 
         {
-            if (AppRepository.Authenticate(credential.ClientId, credential.Secret)) 
+            if (Authenticator.Authenticate(credential.ClientId, credential.Secret)) 
             {
                 DateTime expireDate = DateTime.UtcNow.AddMinutes(10);
                 return Ok(new
                 {
-                    accessToken = CreateToken(credential.ClientId, expireDate),
+                    accessToken = Authenticator.CreateToken(credential.ClientId, expireDate, _configuration.GetValue<string>("SecretKey")!),
                     expiresAt = expireDate
                 });
             }
@@ -34,32 +34,6 @@ namespace ShirtsManagament.API.Controllers
                 Status = StatusCodes.Status401Unauthorized
             };
             return new UnauthorizedObjectResult(details);
-        }
-
-        private string CreateToken(string clientId, DateTime expiresAt)
-        {
-            Application? application = AppRepository.GetById(clientId);
-            IEnumerable<Claim> claims = new List<Claim>()
-            {
-                new Claim("AppName", application?.Name ?? ""),
-                new Claim("Read", (application?.Scopes ?? "").Contains("read") ? "true" : "false"),
-                new Claim("Write", (application?.Scopes ?? "").Contains("write") ? "true" : "false"),
-            };
-
-            byte[]? secretKey = Encoding.ASCII.GetBytes(_configuration?.GetValue<string>("SecretKey")!);
-            JwtSecurityToken jwt = new JwtSecurityToken
-            (
-            
-                signingCredentials: new SigningCredentials 
-                (
-                    new SymmetricSecurityKey(secretKey),
-                    SecurityAlgorithms.HmacSha256Signature
-                ) ,
-                claims: claims,
-                expires: expiresAt,
-                notBefore: DateTime.UtcNow
-            );
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
-        }
+        }  
     }
 }
