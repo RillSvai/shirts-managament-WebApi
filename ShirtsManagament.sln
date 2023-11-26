@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShirtsManagament.API", "ShirtsManagament.API\ShirtsManagament.API.csproj", "{21AF2D67-00A3-49D9-BBCD-5A2CD425FDE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShirtsManagament.Web", "ShirtsManagament.Web\ShirtsManagament.Web.csproj", "{2BC707C2-536B-4142-8848-D0AF3D837399}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShirtsManagament.Web", "ShirtsManagament.Web\ShirtsManagament.Web.csproj", "{B9DDF628-EC29-4173-BBA3-D92DDDCEA38B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{21AF2D67-00A3-49D9-BBCD-5A2CD425FDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21AF2D67-00A3-49D9-BBCD-5A2CD425FDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21AF2D67-00A3-49D9-BBCD-5A2CD425FDE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BC707C2-536B-4142-8848-D0AF3D837399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BC707C2-536B-4142-8848-D0AF3D837399}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BC707C2-536B-4142-8848-D0AF3D837399}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BC707C2-536B-4142-8848-D0AF3D837399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9DDF628-EC29-4173-BBA3-D92DDDCEA38B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9DDF628-EC29-4173-BBA3-D92DDDCEA38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9DDF628-EC29-4173-BBA3-D92DDDCEA38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9DDF628-EC29-4173-BBA3-D92DDDCEA38B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
