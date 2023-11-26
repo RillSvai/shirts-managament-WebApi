@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShirtsManagement.Web.Data;
 using ShirtsManagement.Web.Models;
+using System.Net.NetworkInformation;
 
 namespace ShirtsManagement.Web.Controllers;
 
@@ -106,6 +107,14 @@ public class ShirtController : Controller
             {
                 ModelState.AddModelError(error.Key, string.Join("; ",error.Value));
             }
+            return;
         }
+        if (ex.ErrorResponse is not null) 
+        {
+            ModelState.AddModelError("Error", ex.ErrorResponse?.Title ?? "");
+            return;
+        }
+        ModelState.AddModelError("Error", ex.Message);
+        
     }
 }

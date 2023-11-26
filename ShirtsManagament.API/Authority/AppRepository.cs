@@ -10,7 +10,7 @@
                 Name = "MyMvc",
                 ClientId = "Test_CI",
                 Secret = "Test_S",
-                Scopes = "read,write"
+                Scopes = "read,write,delete"
             }
         };
         public static Application? GetById(string clientId) 

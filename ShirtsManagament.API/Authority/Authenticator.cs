@@ -20,13 +20,16 @@ namespace ShirtsManagament.API.Authority
         public static string CreateToken(string clientId, DateTime expiresAt, string secretKeyStr)
         {
             Application? application = AppRepository.GetById(clientId);
-            IEnumerable<Claim> claims = new List<Claim>()
+            List<Claim> claims = new List<Claim>()
             {
                 new Claim("AppName", application?.Name ?? ""),
-                new Claim("Read", (application?.Scopes ?? "").Contains("read") ? "true" : "false"),
-                new Claim("Write", (application?.Scopes ?? "").Contains("write") ? "true" : "false"),
             };
 
+            string[]? scopes = application.Scopes?.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            foreach (string scope in scopes ?? new string[0]) 
+            {
+                claims.Add(new Claim(scope.ToLower(), "true"));
+            }
             byte[]? secretKey = Encoding.ASCII.GetBytes(secretKeyStr);
             JwtSecurityToken jwt = new JwtSecurityToken
             (
@@ -43,11 +46,15 @@ namespace ShirtsManagament.API.Authority
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        public static bool VerifyToken(string? token, string secretKeyStr) 
+        public static List<Claim>? VerifyToken(string? token, string secretKeyStr) 
         {
             if (string.IsNullOrEmpty(token?.Trim())) 
             {
-                return false;
+                return null;
+            }
+            if (token.StartsWith("Bearer"))
+            {
+                token = token.Substring(6).Trim();
             }
             byte[] secretKey = Encoding.ASCII.GetBytes(secretKeyStr);
             SecurityToken securityToken;
@@ -63,16 +70,21 @@ namespace ShirtsManagament.API.Authority
                     ValidateIssuer = false,
                     ClockSkew = TimeSpan.Zero
                 }, out securityToken);
+                if (securityToken is not null) 
+                {
+                    var tokenObj = handler.ReadJwtToken(token);
+                    return tokenObj.Claims.ToList() ?? (new List<Claim>());
+                }
             }
             catch(SecurityTokenException) 
             {
-                return false;
+                return null;
             }
             catch
             {
                 throw;
             }
-            return securityToken is not null ;
+            return null;
         }
     }
 }

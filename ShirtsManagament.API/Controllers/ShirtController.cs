@@ -3,6 +3,7 @@ using ShirtsManagament.API.Models;
 using ShirtsManagament.API.Filters.ShirtAttributes;
 using ShirtsManagament.API.Filters;
 using ShirtsManagament.API.Repositories.IRepositories;
+using ShirtsManagament.API.Attributes;
 
 namespace ShirtsManagament.API.Controllers
 {
@@ -18,6 +19,7 @@ namespace ShirtsManagament.API.Controllers
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [RequiredClaim("read", "true")]
         public ActionResult<IEnumerable<Shirt>> GetAll() 
         {
             return Ok(_unitOfWork.ShirtRepo.GetAll());
@@ -29,6 +31,7 @@ namespace ShirtsManagament.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [IdFilter]
         [TypeFilter(typeof(ShirtExistFilterAttribute))]
+        [RequiredClaim("read", "true")]
         public ActionResult<Shirt?> Get([FromRoute] int id) 
         {
             return Ok(HttpContext.Items["shirt"]);
@@ -37,6 +40,7 @@ namespace ShirtsManagament.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ShirtCreateFilter]
+        [RequiredClaim("write", "true")]
         public async Task<ActionResult<Shirt>> Post([FromBody] Shirt shirt)
         {
             await _unitOfWork.ShirtRepo.InsertAsync(shirt);
@@ -51,6 +55,7 @@ namespace ShirtsManagament.API.Controllers
         [IdFilter]
         [TypeFilter(typeof(ShirtExistFilterAttribute))]
         [ShirtUpdateFilter]
+        [RequiredClaim("write", "true")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Shirt shirt) 
         {
             _unitOfWork.ShirtRepo.Update(shirt);
@@ -64,6 +69,7 @@ namespace ShirtsManagament.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [IdFilter]
         [TypeFilter(typeof(ShirtExistFilterAttribute))]
+        [RequiredClaim("delete", "true")]
         public async Task<IActionResult> Delete([FromRoute] int id) 
         {
             Shirt? shirt = HttpContext.Items["shirt"] as Shirt;

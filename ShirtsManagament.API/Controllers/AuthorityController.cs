@@ -21,7 +21,7 @@ namespace ShirtsManagament.API.Controllers
         {
             if (Authenticator.Authenticate(credential.ClientId, credential.Secret)) 
             {
-                DateTime expireDate = DateTime.UtcNow.AddMinutes(10);
+                DateTime expireDate = DateTime.UtcNow.AddMinutes(60);
                 return Ok(new
                 {
                     accessToken = Authenticator.CreateToken(credential.ClientId, expireDate, _configuration.GetValue<string>("SecretKey")!),
