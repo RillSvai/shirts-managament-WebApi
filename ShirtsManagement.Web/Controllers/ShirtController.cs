@@ -31,7 +31,32 @@ public class ShirtController : Controller
         {
             return View(shirt);
         }
+        _ = await _webApiExecuter.InvokePost("shirt", shirt);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Update([FromRoute] int id)
+    {
+        Shirt? shirt = await _webApiExecuter.InvokeGet<Shirt>($"shirt/{id}");
+        if (shirt is null)
+        {
+            return NotFound();
+        }
+
+        return View(shirt);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(Shirt shirt)
+    {
         await Task.Delay(1);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete([FromRoute] int id)
+    {
         return RedirectToAction(nameof(Index));
     }
 }

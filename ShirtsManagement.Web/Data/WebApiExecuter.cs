@@ -16,4 +16,12 @@ public class WebApiExecuter : IWebApiExecuter
         return await httpClient.GetFromJsonAsync<T>(relativeUrl);
 
     }
+
+    public async Task<T?> InvokePost<T>(string relativeUrl, T obj)
+    {
+        HttpClient httpClient = _clientFactory.CreateClient(ApiName);
+        HttpResponseMessage response = await httpClient.PostAsJsonAsync(relativeUrl,obj);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<T>();
+    }
 }
