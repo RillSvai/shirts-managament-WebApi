@@ -6,20 +6,18 @@ namespace ShirtsManagament.API.Models.Validations.ShirtAttributes
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value is Models.Shirt shirt) 
+            if (value is not Shirt shirt)
+                return new ValidationResult("Attribute was applied to wrong type. Expected: 'Shirt'.");
+            double minSize = shirt.Gender switch 
             {
-                double minSize = shirt.Gender switch 
-                {
-                    'm' or 'M' => 8,
-                    _ => 6,
-                };
-                if (shirt.Size < minSize) 
-                {
-                    return new ValidationResult($"Size of shirt should be greater or equal {minSize}.");
-                }
-                return ValidationResult.Success;
+                'm' or 'M' => 8,
+                _ => 6,
+            };
+            if (shirt.Size < minSize) 
+            {
+                return new ValidationResult($"Size of shirt should be greater or equal {minSize}.");
             }
-            return new ValidationResult("Attribute was applied to wrong type. Expected: 'Shirt'.");
+            return ValidationResult.Success;
         }
     }
 }

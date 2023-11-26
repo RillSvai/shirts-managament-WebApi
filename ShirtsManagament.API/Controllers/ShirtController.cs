@@ -22,13 +22,13 @@ namespace ShirtsManagament.API.Controllers
             return Ok(_unitOfWork.ShirtRepo.GetAll());
         }
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [IdFilter]
         [TypeFilter(typeof(ShirtExistFilterAttribute))]
-        public async Task<ActionResult<Shirt?>> Get([FromRoute] int id) 
+        public ActionResult<Shirt?> Get([FromRoute] int id) 
         {
             return Ok(HttpContext.Items["shirt"]);
         }
@@ -43,7 +43,7 @@ namespace ShirtsManagament.API.Controllers
             return CreatedAtAction(nameof(Get), new {id = shirt.Id}, shirt);
         }
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -57,7 +57,7 @@ namespace ShirtsManagament.API.Controllers
             return NoContent();
         }
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

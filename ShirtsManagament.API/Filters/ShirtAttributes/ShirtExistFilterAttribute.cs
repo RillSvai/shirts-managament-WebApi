@@ -5,7 +5,7 @@ using ShirtsManagament.API.Repositories.IRepositories;
 
 namespace ShirtsManagament.API.Filters.ShirtAttributes
 {
-    public class ShirtExistFilterAttribute : ActionFilterAttribute, IAsyncActionFilter
+    public class ShirtExistFilterAttribute : ActionFilterAttribute
     {
         private readonly IUnitOfWork _unitOfWork;
         public ShirtExistFilterAttribute(IUnitOfWork unitOfWork)
@@ -15,10 +15,10 @@ namespace ShirtsManagament.API.Filters.ShirtAttributes
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             int? id = context.ActionArguments["id"] as int?;
-            Shirt? shirt = await _unitOfWork.ShirtRepo.GetById(id);
+            Shirt? shirt = await _unitOfWork.ShirtRepo.GetByIdAsync(id);
             if (shirt is null)
             {
-                context.ModelState.AddModelError("Id", "Shirt doesn`t exist.");
+                context.ModelState.AddModelError("Id", "Shirt does not exist.");
                 ValidationProblemDetails details = new ValidationProblemDetails(context.ModelState)
                 {
                     Status = StatusCodes.Status404NotFound

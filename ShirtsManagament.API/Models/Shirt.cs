@@ -1,5 +1,6 @@
 ﻿using ShirtsManagament.API.Models.Validations.ShirtAttributes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShirtsManagament.API.Models
 {
@@ -9,7 +10,7 @@ namespace ShirtsManagament.API.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Brand { get; set; }
+        public required string Brand { get; set; }
         public string? Color { get; set; }
         [Required]
         [Range(6,12)]
@@ -18,6 +19,7 @@ namespace ShirtsManagament.API.Models
         [Gender]
         public char Gender {  get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
     }
 }

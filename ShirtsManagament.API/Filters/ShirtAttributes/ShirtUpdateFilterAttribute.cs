@@ -4,17 +4,14 @@ using ShirtsManagament.API.Models;
 
 namespace ShirtsManagament.API.Filters.ShirtAttributes
 {
-    public class ShirtUpdateFilterAttribute : ActionFilterAttribute, IAsyncActionFilter
+    public class ShirtUpdateFilterAttribute : ActionFilterAttribute
     {
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            int? id = context.ActionArguments["id"] as int?;
-            Shirt? shirt = context.ActionArguments["shirt"] as Shirt;
-            ValidationProblemDetails details;
-            if (id == null || shirt is null || shirt.Id != id) 
+            if (context.ActionArguments["id"] is not int id || context.ActionArguments["shirt"] is not Shirt shirt || shirt.Id != (int?)id) 
             {
                 context.ModelState.AddModelError("Shirt", "Id from route and id of updated shirt should match.");
-                details = new ValidationProblemDetails(context.ModelState) 
+                ValidationProblemDetails details = new ValidationProblemDetails(context.ModelState) 
                 {
                     Status = StatusCodes.Status400BadRequest
                 };

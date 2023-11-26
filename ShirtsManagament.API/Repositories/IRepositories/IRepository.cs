@@ -6,7 +6,7 @@ namespace ShirtsManagament.API.Repositories.IRepositories
     {
         public IEnumerable<T> GetAll(Expression<Func<T,bool>>? filter = null);
         public Task<T?> GetAsync(Expression<Func<T,bool>>? filter = null, bool isTracked = false);
-        public Task<T?> GetById<TIdentifier>(TIdentifier id, bool isTracked = false);
+        public Task<T?> GetByIdAsync<TIdentifier>(TIdentifier id, bool isTracked = false);
         public Task InsertAsync(T item);
         public Task<bool> ExistAsync(int id, bool isTracked = false);
         public void Update(T item);

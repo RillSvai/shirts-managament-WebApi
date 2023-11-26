@@ -9,7 +9,7 @@ namespace ShirtsManagament.API.Repositories
     {
         private readonly ApplicationDbContext _db;
         private readonly DbSet<T> _dbSet;
-        public Repository(ApplicationDbContext db)
+        protected Repository(ApplicationDbContext db)
         {
             _db = db;
             _dbSet = _db.Set<T>();
@@ -36,7 +36,7 @@ namespace ShirtsManagament.API.Repositories
             T? item =  await _dbSet.FindAsync(id);
             if (item is not null && !isTracked) 
             {
-                _db.Entry(item!).State = EntityState.Detached;
+                _db.Entry(item).State = EntityState.Detached;
             }
             return item is not null;
         }
@@ -60,12 +60,12 @@ namespace ShirtsManagament.API.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<T?> GetById<TIdentifier>(TIdentifier id, bool isTracked = false)
+        public async Task<T?> GetByIdAsync<TIdentifier>(TIdentifier id, bool isTracked = false)
         {
             T? item = await _dbSet.FindAsync(id);
             if (item is not null && !isTracked)
             {
-                _db.Entry(item!).State = EntityState.Detached;
+                _db.Entry(item).State = EntityState.Detached;
             }
             return item;
         }
