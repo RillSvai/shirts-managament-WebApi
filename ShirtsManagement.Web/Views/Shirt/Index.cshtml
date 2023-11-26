@@ -1,1 +1,25 @@
-﻿
+﻿@model IEnumerable<Shirt>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col" class="text-white">Brand</th>
+        <th scope="col" class="text-white">Color</th>
+        <th scope="col" class="text-white">Size</th>
+        <th scope="col" class="text-white">Gender</th>
+        <th scope="col" class="text-white">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Shirt shirt in Model)
+    {
+        <tr>
+            <td class="text-white" style="width: 20%">@shirt.Brand</td>
+            <td class="text-white" style="width: 20%">@(shirt.Color ?? "None")</td>
+            <td class="text-white" style="width: 10%">@shirt.Size</td>
+            <td class="text-white" style="width: 10%">@shirt.Gender</td>
+            <td class="text-white" style="width: 20%">@shirt.Price.ToString("c")</td>
+        </tr>
+    }
+    </tbody>
+</table>
