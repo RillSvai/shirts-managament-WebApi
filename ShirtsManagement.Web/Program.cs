@@ -3,7 +3,7 @@ using ShirtsManagement.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("web-api", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7294/api/");

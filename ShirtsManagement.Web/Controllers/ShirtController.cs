@@ -31,20 +31,35 @@ public class ShirtController : Controller
         {
             return View(shirt);
         }
-        _ = await _webApiExecuter.InvokePost("shirt", shirt);
+        try
+        {
+            _ = await _webApiExecuter.InvokePost("shirt", shirt);
+        }
+        catch (WebApiException ex)
+        {
+            HandleWebApiException(ex);
+            return View(shirt);
+        }
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public async Task<IActionResult> Update([FromRoute] int id)
     {
-        Shirt? shirt = await _webApiExecuter.InvokeGet<Shirt>($"shirt/{id}");
-        if (shirt is null)
+        try
         {
-            return NotFound();
+            Shirt? shirt = await _webApiExecuter.InvokeGet<Shirt>($"shirt/{id}");
+            if (shirt is not null)
+            {
+                return View(shirt);
+            }
         }
-
-        return View(shirt);
+        catch (WebApiException ex)
+        {
+            HandleWebApiException(ex);
+            return View(nameof(Index), await _webApiExecuter.InvokeGet<IEnumerable<Shirt>>("shirt") );
+        }
+        return NotFound();
     }
 
     [HttpPost]
@@ -54,15 +69,43 @@ public class ShirtController : Controller
         {
             return View(shirt);
         }
-
-        await _webApiExecuter.InvokePut($"shirt/{shirt.Id}", shirt);
+        try
+        {
+            await _webApiExecuter.InvokePut($"shirt/{shirt.Id}", shirt);
+        }
+        catch (WebApiException ex)
+        {
+            HandleWebApiException(ex);
+            return View(shirt);
+        }
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        await _webApiExecuter.InvokeDelete($"shirt/{id}");
+        try
+        {
+            await _webApiExecuter.InvokeDelete($"shirt/{id}");
+        }
+        catch (WebApiException ex)
+        {
+            HandleWebApiException(ex);
+            return View(nameof(Index), await _webApiExecuter.InvokeGet<IEnumerable<Shirt>>("shirt") );
+        }
         return RedirectToAction(nameof(Index));
+    }
+
+    private void HandleWebApiException(WebApiException ex)
+    {
+        if (ex.ErrorResponse is not null &&
+            ex.ErrorResponse.Errors is not null &&
+            ex.ErrorResponse.Errors.Count > 0)
+        {
+            foreach (var error in ex.ErrorResponse.Errors)
+            {
+                ModelState.AddModelError(error.Key, string.Join("; ",error.Value));
+            }
+        }
     }
 }
