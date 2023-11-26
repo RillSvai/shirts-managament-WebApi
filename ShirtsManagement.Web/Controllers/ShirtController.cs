@@ -50,13 +50,19 @@ public class ShirtController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(Shirt shirt)
     {
-        await Task.Delay(1);
+        if (!ModelState.IsValid)
+        {
+            return View(shirt);
+        }
+
+        await _webApiExecuter.InvokePut($"shirt/{shirt.Id}", shirt);
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
+        await _webApiExecuter.InvokeDelete($"shirt/{id}");
         return RedirectToAction(nameof(Index));
     }
 }
