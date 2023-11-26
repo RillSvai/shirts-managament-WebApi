@@ -17,4 +17,21 @@ public class ShirtController : Controller
     {
         return View(await _webApiExecuter.InvokeGet<IEnumerable<Shirt>>("shirt"));
     }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(Shirt shirt)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(shirt);
+        }
+        await Task.Delay(1);
+        return RedirectToAction(nameof(Index));
+    }
 }

@@ -20,6 +20,7 @@ namespace ShirtsManagament.API.Models
         public char Gender {  get; set; }
         [Required]
         [Column(TypeName = "decimal(18,2)")]
+        [Range(50,10000)]
         public decimal Price { get; set; }
     }
 }

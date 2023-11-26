@@ -6,7 +6,7 @@ namespace ShirtsManagement.Web.Models.Validations.ShirtAttributes
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value is not Shirt shirt)
+            if (validationContext.ObjectInstance is not Shirt shirt)
                 return new ValidationResult("Attribute was applied to wrong type. Expected: 'Shirt'.");
             double minSize = shirt.Gender switch 
             {
