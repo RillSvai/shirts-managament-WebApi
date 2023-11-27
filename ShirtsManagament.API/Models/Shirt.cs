@@ -11,6 +11,7 @@ namespace ShirtsManagament.API.Models
         public int Id { get; set; }
         [Required]
         public required string Brand { get; set; }
+        public string? Description {  get; set; }
         public string? Color { get; set; }
         [Required]
         [Range(6,12)]
@@ -22,5 +23,10 @@ namespace ShirtsManagament.API.Models
         [Column(TypeName = "decimal(18,2)")]
         [Range(50,10000)]
         public decimal Price { get; set; }
+
+        public bool ValidateDescription() 
+        {
+            return !string.IsNullOrEmpty(Description);
+        }
     }
 }

@@ -1,14 +1,11 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using ShirtsManagament.API.Authority;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
 namespace ShirtsManagament.API.Controllers
 {
+    [ApiVersion("1.0")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthorityController : ControllerBase
     {
         private readonly IConfiguration _configuration;

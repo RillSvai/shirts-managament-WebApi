@@ -4,9 +4,10 @@ using ShirtsManagament.API.Filters.ShirtAttributes;
 using ShirtsManagament.API.Filters;
 using ShirtsManagament.API.Repositories.IRepositories;
 using ShirtsManagament.API.Attributes;
-namespace ShirtsManagament.API.Controllers
+using ShirtsManagament.API.Filters.V2;
+namespace ShirtsManagament.API.Controllers.V2
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [ApiController]
     [Route("api/[controller]")]
     public class ShirtController : ControllerBase
@@ -43,6 +44,7 @@ namespace ShirtsManagament.API.Controllers
         [ShirtCreateFilter]
         [RequiredClaim("write", "true")]
         [JwtTokenAuthFilter]
+        [ShirtDescriptionPresentFilter]
         public async Task<ActionResult<Shirt>> Post([FromBody] Shirt shirt)
         {
             await _unitOfWork.ShirtRepo.InsertAsync(shirt);
@@ -59,6 +61,7 @@ namespace ShirtsManagament.API.Controllers
         [ShirtUpdateFilter]
         [RequiredClaim("write", "true")]
         [JwtTokenAuthFilter]
+        [ShirtDescriptionPresentFilter]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Shirt shirt) 
         {
             _unitOfWork.ShirtRepo.Update(shirt);

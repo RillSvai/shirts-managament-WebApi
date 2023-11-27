@@ -8,11 +8,11 @@ using System.Security.Claims;
 
 namespace ShirtsManagament.API.Filters
 {
-    public class JwtTokenAuthFilterAttribute : Attribute, IAsyncAuthorizationFilter
+    public class JwtTokenAuthFilterAttribute : Attribute, IAuthorizationFilter
     {
-        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if(!context.HttpContext.Request.Headers.TryGetValue("Authorization",out StringValues token))
+            if (!context.HttpContext.Request.Headers.TryGetValue("Authorization", out StringValues token))
             {
                 context.Result = new UnauthorizedResult();
                 return;
@@ -20,12 +20,11 @@ namespace ShirtsManagament.API.Filters
             IConfiguration configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
 
             List<Claim>? claims = Authenticator.VerifyToken(token, configuration.GetValue<string>("SecretKey")!);
-            if (claims is null) 
+            if (claims is null)
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
-
             var requiredClaims = context.ActionDescriptor.EndpointMetadata.OfType<RequiredClaimAttribute>().ToList();
             if (requiredClaims is not null && !requiredClaims
                 .All(rc => claims

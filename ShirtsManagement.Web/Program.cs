@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.Extensions.FileProviders;
 using ShirtsManagement.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);

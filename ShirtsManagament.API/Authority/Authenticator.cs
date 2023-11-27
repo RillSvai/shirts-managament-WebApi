@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ShirtsManagament.API.Authority
@@ -54,7 +55,7 @@ namespace ShirtsManagament.API.Authority
             }
             if (token.StartsWith("Bearer"))
             {
-                token = token.Substring(6).Trim();
+                token = Regex.Replace(token, @"\s", "").Substring(6);
             }
             byte[] secretKey = Encoding.ASCII.GetBytes(secretKeyStr);
             SecurityToken securityToken;
@@ -76,13 +77,9 @@ namespace ShirtsManagament.API.Authority
                     return tokenObj.Claims.ToList() ?? (new List<Claim>());
                 }
             }
-            catch(SecurityTokenException) 
+            catch(Exception) 
             {
                 return null;
-            }
-            catch
-            {
-                throw;
             }
             return null;
         }
